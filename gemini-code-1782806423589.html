@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блок Read More в стиле Sixt (Обновленный) — Rentmotors</title>
+    <style>
+        :root {
+            --sixt-black: #000000;
+            --sixt-grey-dark: #191919;
+            --sixt-grey-muted: #737373;
+            --sixt-border: #E6E6E6;
+            --rm-orange: #EF8144;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--sixt-grey-dark);
+            background-color: #ffffff;
+            margin: 0;
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        .sixt-section-wrapper {
+            width: 100%;
+            max-width: 1280px;
+        }
+
+        .sixt-main-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 40px 0;
+            color: var(--sixt-black);
+        }
+
+        /* 3-колоночная структура: Уменьшили отступ (gap) до 24px, колонки стали шире */
+        .sixt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .sixt-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sixt-column-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--sixt-black);
+            line-height: 1.4;
+            margin: 0 0 16px 0;
+        }
+
+        /* Контейнер для текста с ограничением высоты */
+        .sixt-text-trigger-wrapper {
+            position: relative;
+        }
+
+        .sixt-text-collapse {
+            max-height: 100px; /* Высота видимой части скорректирована под новый градиент */
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--sixt-grey-dark);
+        }
+
+        .sixt-text-collapse p {
+            margin: 0 0 16px 0;
+        }
+
+        .sixt-text-collapse ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .sixt-text-collapse li {
+            margin-bottom: 8px;
+        }
+
+        /* УВЕЛИЧЕННЫЙ ЭФФЕКТ ЗАТЕМНЕНИЯ (FADE) */
+        .sixt-text-trigger-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px; /* Увеличили высоту эффекта затемнения до 65px */
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        /* Кнопка Read More / Less */
+        .sixt-btn-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            padding: 12px 0 0 0;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--sixt-black);
+            cursor: pointer;
+            margin-top: 4px;
+            transition: color 0.2s;
+        }
+
+        .sixt-btn-more:hover {
+            color: var(--rm-orange);
+        }
+
+        .sixt-btn-more svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        /* СОСТОЯНИЕ РАСКРЫТОГО БЛОКА */
+        .sixt-column.is-expanded .sixt-text-collapse {
+            max-height: 1000px;
+        }
+
+        .sixt-column.is-expanded .sixt-text-trigger-wrapper::after {
+            opacity: 0;
+        }
+
+        .sixt-column.is-expanded .sixt-btn-more svg {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 1023px) {
+            .sixt-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                padding: 40px 16px;
+            }
+            .sixt-main-title {
+                font-size: 22px;
+                margin-bottom: 32px;
+            }
+            .sixt-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sixt-section-wrapper">
+    
+    <h2 class="sixt-main-title">Полезно знать о прокате авто в Шереметьево</h2>
+
+    <div class="sixt-grid">
+
+        <div class="sixt-column">
+            <h3 class="sixt-column-title">Добро пожаловать в Rentmotors</h3>
+            <div class="sixt-text-trigger-wrapper">
+                <div class="sixt-text-collapse">
+                    <p>Наша станция в международном аэропорту Шереметьево предлагает быстрый и комфортный способ начать ваше путешествие по Москве и Подмосковью сразу после прилета.</p>
+                    <p>Мы предлагаем широкий выбор новых автомобилей от эконом-класса до премиальных внедорожников. Все машины проходят регулярный технический осмотр и комплексную чистку перед каждой выдачей клиенту.</p>
+                </div>
+            </div>
+            <button class="sixt-btn-more" onclick="toggleSixtReadMore(this)">
+                <span class="btn-text">Read More</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+        </div>
+
+        <div class="sixt-column">
+            <h3 class="sixt-column-title">Лучшие маршруты из аэропорта</h3>
+            <div class="sixt-text-trigger-wrapper">
+                <div class="sixt-text-collapse">
+                    <p>Из аэропорта вы можете легко добраться в любую точку столицы благодаря прямому выезду на Ленинградское шоссе и скоростную платную трассу М-11 «Нева».</p>
+                    <p>Популярные направления за город:</p>
+                    <ul>
+                        <li>Исторический город Сергиев Посад</li>
+                        <li>Музей-заповедник П.И. Чайковского в Клину</li>
+                        <li>Живописное Истринское водохранилище с пляжами</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="sixt-btn-more" onclick="toggleSixtReadMore(this)">
+                <span class="btn-text">Read More</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+        </div>
+
+        <div class="sixt-column">
+            <h3 class="sixt-column-title">Особенности вождения и ПДД</h3>
+            <div class="sixt-text-trigger-wrapper">
+                <div class="sixt-text-collapse">
+                    <p>Движение в Москве интенсивное, поэтому мы рекомендуем использовать современные навигаторы с функцией отслеживания пробок в реальном времени.</p>
+                    <p>Обратите внимание, что в пределах ТТК и Садового кольца практически все парковочные зоны являются платными. Оплатить стоянку можно через официальное мобильное приложение «Парковки России» или посредством СМС-сообщений.</p>
+                </div>
+            </div>
+            <button class="sixt-btn-more" onclick="toggleSixtReadMore(this)">
+                <span class="btn-text">Read More</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function toggleSixtReadMore(button) {
+    const column = button.closest('.sixt-column');
+    const textNode = button.querySelector('.btn-text');
+    
+    column.classList.toggle('is-expanded');
+    
+    if (column.classList.contains('is-expanded')) {
+        textNode.textContent = 'Read Less';
+    } else {
+        textNode.textContent = 'Read More';
+    }
+}
+</script>
+
+</body>
+</html>
